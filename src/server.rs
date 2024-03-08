@@ -18,13 +18,12 @@ async fn hello(_: Request<impl hyper::body::Body>) -> Result<Response<Full<Bytes
 #[tokio::main]
 // Result<SuccessType, ErrorType>
 pub async fn run() -> Result<(), Box<dyn std::error::Error + Send + Sync>> {
-
     // This address is localhost
     let addr: SocketAddr = ([127, 0, 0, 1], 1973).into();
 
     // Bind to the port and listen for incoming TCP connections
     let listener = TcpListener::bind(addr).await?;
-    println!("Listening on http://{}", addr);
+    println!("server is Listening on http://{}", addr);
     loop {
         // When an incoming TCP connection is received grab a TCP stream for
         // client<->server communication.
@@ -54,5 +53,3 @@ pub async fn run() -> Result<(), Box<dyn std::error::Error + Send + Sync>> {
         });
     }
 }
-
-
