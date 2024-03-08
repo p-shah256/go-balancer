@@ -1,5 +1,6 @@
 use std::convert::Infallible;
 use std::net::SocketAddr;
+use std::u8;
 
 use http_body_util::Full;
 use hyper::body::Bytes;
@@ -8,6 +9,8 @@ use hyper::service::service_fn;
 use hyper::{Request, Response};
 use hyper_util::rt::TokioIo;
 use tokio::net::TcpListener;
+
+const SERVER_ADDRESS: ([u8; 4], u16) = ([127, 0, 0, 1], 1973);
 
 // An async function that consumes a request, does nothing with it and returns a
 // response.
@@ -19,7 +22,7 @@ async fn hello(_: Request<impl hyper::body::Body>) -> Result<Response<Full<Bytes
 // Result<SuccessType, ErrorType>
 pub async fn run() -> Result<(), Box<dyn std::error::Error + Send + Sync>> {
     // This address is localhost
-    let addr: SocketAddr = ([127, 0, 0, 1], 1973).into();
+    let addr: SocketAddr = SERVER_ADDRESS.into();
 
     // Bind to the port and listen for incoming TCP connections
     let listener = TcpListener::bind(addr).await?;
